@@ -49,6 +49,8 @@ def _update_att(ann_trs, ann_id):
     AttachmentList.by_ann_id(ann_id, sql_session).delete()
     for tr in ann_trs[4:]:
         a = tr.find('a')
+        if not a:
+            continue
         m = att_link_re.match(a.text)
         if m:
             att_key = '%s' % uuid.uuid1().hex

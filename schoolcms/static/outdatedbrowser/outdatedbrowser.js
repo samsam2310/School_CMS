@@ -112,6 +112,7 @@ var outdatedBrowser = function(options) {
             }
         }
     }else{
+        // IF browser is supported.
         return true;
     };//end if
 
