@@ -87,6 +87,8 @@ def _parse_ann(ann_trs, ann_url, movinglog, mytid, ann_time):
 
     for tr in ann_trs[4:]:
         a = tr.find('a')
+        if not a:
+            continue
         if att_link_re.match(a.text):
             break
         content += '\n * [%s](%s)' % (a.text, a['href'])
