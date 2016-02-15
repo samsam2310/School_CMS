@@ -106,7 +106,7 @@ def _parse_ann(ann_trs, ann_url, movinglog, mytid, ann_time):
             })
         Record.add('update', movinglog.id, sql_session)
     else:
-        new_ann = Announce(title, content, author_group_name, author_name, ann_is_private, created=ann_time)
+        new_ann = Announce(title, content, author_group_name, author_name, ann_is_private, created=ann_time, updated=ann_time)
         sql_session.add(new_ann)
         sql_session.flush()
         sql_session.refresh(new_ann)
