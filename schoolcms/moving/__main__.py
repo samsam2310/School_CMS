@@ -33,6 +33,7 @@ mytid_re    = re.compile(r'mytid=([0-9]+)')
 time_re     = re.compile(r'([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2})(?: \(最新編修時間 ([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2})\))?')
 att_link_re = re.compile(r'^相關附件[0-9]：([\S]+) \(大小：[\S]+ 時間：([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2})\)$')
 
+bad_filename_char = '#<$+%>!`&*\'|{?\"=}/: @;'
 
 def _get_content_type(filename, real_filename=''):
     _content_type, encoding = mimetypes.guess_type(real_filename)
@@ -40,6 +41,12 @@ def _get_content_type(filename, real_filename=''):
         _content_type = subprocess.check_output('file -b --mime-type %s' % filename, shell=True)
         _content_type = re.search(r'([\S]+)', _content_type).group()
     return _content_type
+
+
+def get_save_filename(s):
+    for c in bad_filename_char:
+        s = s.replace(c, '_')
+    return s
 
 
 def _update_att(ann_trs, ann_id):
@@ -54,7 +61,7 @@ def _update_att(ann_trs, ann_id):
         m = att_link_re.match(a.text)
         if m:
             att_key = '%s' % uuid.uuid1().hex
-            att_name = m.group(1)
+            att_name = get_save_filename(m.group(1))
             att_time = datetime.strptime(m.group(2), '%Y-%m-%d %H:%M:%S') - timedelta(hours=8)
 
             os.makedirs('file/%s' % att_key)
