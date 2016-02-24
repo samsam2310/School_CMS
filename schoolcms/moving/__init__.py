@@ -23,4 +23,4 @@ define('mv_update', default=False, help='', type=bool)
 from ..util.parse_config import parse_config
 parse_config()
 
-version = '0.0.1'
+version = '0.0.2'
