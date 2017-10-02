@@ -32,6 +32,7 @@ from tornado.options import options
 mytid_re    = re.compile(r'mytid=([0-9]+)')
 time_re     = re.compile(r'([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2})(?: \(最新編修時間 ([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2})\))?')
 att_link_re = re.compile(r'^相關附件[0-9]：([\S]+) \(大小：[\S]+ 時間：([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2})\)$')
+comment_re  = re.compile(r'<!--.*-->')
 
 bad_filename_char = '#<$+%>!`&*\'|{?\"=}/: @;'
 
@@ -101,6 +102,8 @@ def _parse_ann(ann_trs, ann_url, movinglog, mytid, ann_time):
         content += '\n * [%s](%s)' % (a.text, a['href'])
     content += addition_content
 
+    content = comment_re.sub('',content,re.S)
+    
     if movinglog:
         Announce.by_id(movinglog.id, sql_session).update({
                 'title': title,

@@ -2,12 +2,17 @@
 CMS 
 校務系統統整
 
-run
+### create database
+```
+python -m schoolcms.creatDB
+```
+
+### run
 ```
 python -m schoolcms.app --port=[PORT]
 ```
 
-###Server
+### Server
 python-tornado 4.0.2
 python-sqlalchemy 1.0.4
 python-mysql.connector 1.1.6
@@ -22,7 +27,7 @@ python-user-agents 0.3.2
 python-beautifulsoup4
 python-markdown 2.4
 
-###Client
+### Client
 bootstrap-3.3.4
 react-0.13.2
 react-bootstrap
